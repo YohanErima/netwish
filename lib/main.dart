@@ -12,6 +12,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return HomeScreen();
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: "NetWish",
+        theme: ThemeData.dark(),
+        home: HomeScreen());
   }
 }
