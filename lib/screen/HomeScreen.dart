@@ -1,10 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
-import 'package:flutter/material.dart';
-import 'package:netwish/class/Constante.dart';
-import 'package:netwish/class/Movie.dart';
-import 'package:netwish/widgets/MovieCard.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
+import "package:flutter/material.dart";
+import "package:netwish/class/Constante.dart";
+import "package:netwish/class/Movie.dart";
+import "package:netwish/widgets/MovieCard.dart";
+import "package:rflutter_alert/rflutter_alert.dart";
 import "package:http/http.dart" as http;
 import "dart:convert";
 
@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
     String searchTerm = searchController.text;
 
     String apiUrl =
-        'https://api.themoviedb.org/3/search/movie?api_key=${Constante.apiKey}&query=$searchTerm&language=fr-FR';
+        "https://api.themoviedb.org/3/search/movie?api_key=${Constante.apiKey}&query=$searchTerm&language=fr-FR";
 
     var response = await http.get(Uri.parse(apiUrl));
 
@@ -31,30 +31,34 @@ class _HomeScreenState extends State<HomeScreen> {
       var searchData = jsonDecode(response.body);
       List<Movie> movies = [];
 
-      for (var movieData in searchData['results']) {
-        movies.add(Movie(
-          title: movieData['title'],
-          imageUrl: movieData['poster_path'] != null
-              ? 'https://image.tmdb.org/t/p/w500${movieData['poster_path']}'
-              : "",
-        ));
+      for (var movieData in searchData["results"]) {
+        movies.add(
+          Movie(
+            title: movieData["title"],
+            imageUrl: movieData["poster_path"] != null
+                ? "https://image.tmdb.org/t/p/w500${movieData["poster_path"]}"
+                : "",
+            overview: movieData["overview"],
+            releaseDate: movieData["release_date"],
+            voteAverage: movieData["vote_average"],
+          ),
+        );
       }
 
       setState(() {
         _movies = movies;
       });
     } else {
-      // Afficher une alerte en cas d'erreur de requête
       Alert(
         context: context,
-        title: 'Erreur',
-        desc: 'Une erreur s\'est produite lors de la recherche.',
+        title: "Erreur",
+        desc: "Une erreur s'est produite lors de la recherche.",
         buttons: [
           DialogButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Text('OK'),
+            child: Text("OK"),
           ),
         ],
       ).show();
@@ -80,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Alert(
                   context: context,
-                  title: 'Recherche',
+                  title: "Recherche",
                   style: AlertStyle(titleStyle: TextStyle(color: Colors.red)),
                   content: Column(
                     children: [
@@ -88,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         controller: searchController,
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.search),
-                          hintText: 'Film à chercher',
+                          hintText: "Film à chercher",
                         ),
                       ),
                     ],
@@ -101,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         searchMovies();
                       },
                       child: Text(
-                        'Recherche',
+                        "Recherche",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),

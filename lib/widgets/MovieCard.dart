@@ -1,5 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:netwish/class/Movie.dart';
+// ignore_for_file: prefer_const_constructors
+
+import "package:flutter/material.dart";
+import "package:netwish/class/Movie.dart";
+import "package:netwish/screen/MovieDetails.dart";
 
 class MovieCard extends StatelessWidget {
   final Movie movie;
@@ -8,34 +11,58 @@ class MovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        children: [
-          movie.imageUrl != ""
-              ? Expanded(
-                  child: Image.network(
-                    width: 50,
-                    movie.imageUrl,
-                    errorBuilder: (BuildContext context, Object exception,
-                        StackTrace? stackTrace) {
-                      // Afficher un carré noir si l'image n'est pas disponible
-                      return Expanded(
-                        child: Container(
-                          color: Colors.black,
-                          width: 50, // Ajustez la largeur selon vos besoins
-                          height: 50, // Ajustez la hauteur selon vos besoins
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => DetailsMoviePage(movie: movie)));
+      },
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              movie.imageUrl != ""
+                  ? Expanded(
+                      child: Image.network(
+                        movie.imageUrl,
+                        errorBuilder: (BuildContext context, Object exception,
+                            StackTrace? stackTrace) {
+                          return Expanded(
+                            child: Container(
+                              width: 100,
+                              height: 100,
+                              color: Colors.black,
+                              child: Center(
+                                child: Icon(
+                                  Icons.help_outline,
+                                  size: 100,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  : Container(
+                      width: 100,
+                      height: 100,
+                      color: Colors.black,
+                      child: Center(
+                        child: Icon(
+                          Icons.help_outline,
+                          size: 100,
+                          color: Colors.white,
                         ),
-                      );
-                    },
-                  ),
-                )
-              : Container(
-                  color: Colors.black,
-                  width: 50, // Ajustez la largeur selon vos besoins
-                  height: 50, // Ajustez la hauteur selon vos besoins
-                ),
-          Text(movie.title)
-        ],
+                      ),
+                    ),
+              Text(movie.title)
+            ],
+          ),
+        ),
       ),
     );
   }
